@@ -40,3 +40,14 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
                Etinvinv=Et$Exinv ^ (-1))
 
 }
+
+setMethod("xtwid", "gapnmfclass",
+    function(obj, goodk) {
+        if (missing(goodk)) {
+            goodk <- 1:obj@K
+        }
+
+        return(obj@Ewinvinv[, goodk] %*% diag(obj@Etinvinv[goodk]) %*% 
+               obj@Ehinvinv[goodk, ])
+    }
+)
