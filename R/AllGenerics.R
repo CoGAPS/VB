@@ -20,4 +20,4 @@ setGeneric("score", function(obj) standardGeneric("score"))
 
 setGeneric("xbar", function(obj, goodk) standardGeneric("xbar"))
 
-setGeneric("xtwid", function(obj, goodk), standardGeneric("xtwid"))
+setGeneric("xtwid", function(obj, goodk) standardGeneric("xtwid"))
