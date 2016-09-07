@@ -6,9 +6,9 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
     tauw <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=M, ncol=K)
     rhoh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
     tauh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
-    rhot <- K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
+    rhot <- K * 10000 * matrix(rgamma(M*K, smoothness, smoothness),
                                nrow=K, ncol=1)
-    taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
+    taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness),
                                    nrow=K, ncol=1)
 
     Ew <- computegigexpectations(a, rhow, tauw)
@@ -20,7 +20,7 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
                alpha=alpha,
                a=a,
                b=b,
-               K=K,
+               K=as.integer(K),
                M=M,
                N=N,
                rhow=rhow,
@@ -29,14 +29,14 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
                tauh=tauh,
                rhot=rhot,
                taut=taut,
-               Ew=Ew$Ew,
-               Ewinv=Ew$Ewinv,
-               Ewinvinv=Ew$Ewinv ^ (-1),
-               Eh=Eh$Ew,
-               Ehinv=Eh$Ewinv,
-               Ehinvinv=Eh$Ewinv ^ (-1),
-               Et=Et$Ew,
-               Etinv=Et$Ewinv,
-               Etinvinv=Et$Ewinv ^ (-1))
+               Ew=Ew$Ex,
+               Ewinv=Ew$Exinv,
+               Ewinvinv=Ew$Exinv ^ (-1),
+               Eh=Eh$Ex,
+               Ehinv=Eh$Exinv,
+               Ehinvinv=Eh$Exinv ^ (-1),
+               Et=Et$Ex,
+               Etinv=Et$Exinv,
+               Etinvinv=Et$Exinv ^ (-1))
 
 }
