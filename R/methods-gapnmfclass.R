@@ -11,9 +11,9 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
     taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
                                    nrow=K, ncol=1)
 
-    Ew <- computegigexpecations(a, rhow, tauw)
-    Eh <- computegigexpecations(b, rhoh, tauh)
-    Et <- computegigexpecations(alpha/K, rhot, taut)
+    Ew <- computegigexpectations(a, rhow, tauw)
+    Eh <- computegigexpectations(b, rhoh, tauh)
+    Et <- computegigexpectations(alpha/K, rhot, taut)
 
     obj <- new("gapnmfclass",
                x=x / mean(x),
