@@ -11,6 +11,10 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
     taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
                                    nrow=K, ncol=1)
 
+    Ew <- computegigexpecations(a, rhow, tauw)
+    Eh <- computegigexpecations(b, rhoh, tauh)
+    Et <- computegigexpecations(alpha/K, rhot, taut)
+
     obj <- new("gapnmfclass",
                x=x / mean(x),
                alpha=alpha,
@@ -24,12 +28,15 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
                rhoh=rhoh,
                tauh=tauh,
                rhot=rhot,
-               taut=taut)
+               taut=taut,
+               Ew=Ew$Ew,
+               Ewinv=Ew$Ewinv,
+               Ewinvinv=Ew$Ewinv ^ (-1),
+               Eh=Eh$Ew,
+               Ehinv=Eh$Ewinv,
+               Ehinvinv=Eh$Ewinv ^ (-1),
+               Et=Et$Ew,
+               Etinv=Et$Ewinv,
+               Etinvinv=Et$Ewinv ^ (-1))
 
-#     [obj.Ew obj.Ewinv] = computegigexpectations(a, obj.rhow, obj.tauw);
-#     obj.Ewinvinv = obj.Ewinv.^-1;
-#     [obj.Eh obj.Ehinv] = computegigexpectations(b, obj.rhoh, obj.tauh);
-#     obj.Ehinvinv = obj.Ehinv.^-1;
-#     [obj.Et obj.Etinv] = computegigexpectations(alpha/K, obj.rhot, obj.taut);
-#     obj.Etinvinv = obj.Etinv.^-1;
 }
