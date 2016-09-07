@@ -2,6 +2,15 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
     M <- dim(x)[1]
     N <- dim(x)[2]
 
+    rhow <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=M, ncol=K)
+    tauw <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=M, ncol=K)
+    rhoh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
+    tauh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
+    rhot <- K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
+                               nrow=K, ncol=1)
+    taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness), 
+                                   nrow=K, ncol=1)
+
     obj <- new("gapnmfclass",
                x=x / mean(x),
                alpha=alpha,
@@ -9,15 +18,14 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
                b=b,
                K=K,
                M=M,
-               N=N)
+               N=N,
+               rhow=rhow,
+               tauw=tauw,
+               rhoh=rhoh,
+               tauh=tauh,
+               rhot=rhot,
+               taut=taut)
 
-#     obj.rhow = 10000*gamrnd(smoothness, 1/smoothness, M, K);
-#     obj.tauw = 10000*gamrnd(smoothness, 1/smoothness, M, K);
-#     obj.rhoh = 10000*gamrnd(smoothness, 1/smoothness, K, N);
-#     obj.tauh = 10000*gamrnd(smoothness, 1/smoothness, K, N);
-#     obj.rhot = K*10000*gamrnd(smoothness, 1/smoothness, K, 1);
-#     obj.taut = 1/K*10000*gamrnd(smoothness, 1/smoothness, K, 1);
-#     
 #     [obj.Ew obj.Ewinv] = computegigexpectations(a, obj.rhow, obj.tauw);
 #     obj.Ewinvinv = obj.Ewinv.^-1;
 #     [obj.Eh obj.Ehinv] = computegigexpectations(b, obj.rhoh, obj.tauh);
