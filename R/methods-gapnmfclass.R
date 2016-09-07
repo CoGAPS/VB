@@ -41,6 +41,15 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
 
 }
 
+setMethod("xbar", "gapnmfclass",
+    function (obj, goodk) {
+        if (missing(goodk)) {
+            goodk <- 1:obj@K
+        }
+        return(obj@Ew[, goodk] %*% diag(obj@Et[goodk]) %*% obj@Eh[goodk, ])
+    }
+)
+
 setMethod("xtwid", "gapnmfclass",
     function(obj, goodk) {
         if (missing(goodk)) {
