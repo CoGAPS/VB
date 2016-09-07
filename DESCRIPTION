@@ -1,4 +1,4 @@
-Package: COGAPS-VB
+Package: COGAPS.VB
 Title: Variational Approximation of CoGAPS
 Version: 0.0.0.9000
 Authors@R: person("Jacob", "Carey", email = "jcarey15@jhu.edu", role = c("aut", "cre"))
