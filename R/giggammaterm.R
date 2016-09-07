@@ -1,7 +1,7 @@
 giggammaterm <- function(Ex, Exinv, rho, tau, a, b) {
     score <- 0
     cutoff <- 1e-200
-    zerotau <- which(tau(:) <= cutoff)
+    zerotau <- which(tau <= cutoff)
     nonzerotau <- find(tau > cutoff)
     score <- score + length(Ex)*(a*log(b) - lgamma(a))
     score <- score - sum((b - rho) * Ex)
