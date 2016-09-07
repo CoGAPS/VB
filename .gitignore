@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 *.Rproj
+
+# vim files
+*.swp
+*.swo
