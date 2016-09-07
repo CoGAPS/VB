@@ -1,15 +1,15 @@
 computegigexpectations <- function(alpha, beta, gamma) {
     if (length(alpha) == 1) {
-        alpha = alpha * rep(1, length(beta))
+        alpha = alpha * array(1, dim(beta))
     }
 
-    Ex <- rep(0, length(beta))
-    Exinv <- rep(0, length(beta))
+    Ex <- array(0, dim(beta))
+    Exinv <- array(0, dim(beta))
 
     giginds <- which(gamma > 1e-200)
-    gaminds <- which(gamma > 1e-200)
+    gaminds <- which(gamma <= 1e-200)
 
-    if (sum(alpha(gaminds) < 0) > 0) {
+    if (sum(alpha[gaminds] < 0) > 0) {
         stop("problem with arguments.")
     }
 
