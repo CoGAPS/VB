@@ -41,6 +41,27 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
 
 }
 
+setMethod("goodk", "gapnmfclass",
+    function(obj, cutoff) {
+        if (missing(cutoff)) {
+            cutoff <- 1e-10 * max(obj@x)
+        }
+
+        # NOT QUITE RIGHT
+        powers <- obj@Et * cbind(apply(obj@Ew, 2, max)) * 
+                  rbind(apply(obj@Eh, 1, max))
+        sorted <- order(powers, descending=TRUE)
+        temp <- powers[sorted]
+        tmpk <- which(temp / max(temp) > cutoff)
+        tmpk <- tmpk[length(tmpk)]
+        goodk <- sorted[1:tmpk]
+
+        if (powers[goodk[length(goodk)]] < cutoff) {
+            goodk[length(goodk)] <- NULL
+        }
+    }
+)
+
 setMethod("bound", "gapnmfclass",
     function(obj, varargin) {
         verbose <- 0
