@@ -73,8 +73,6 @@ setMethod("clearbadk", "gapnmfclass",
         obj@tauh[badk, ] <- 0
 
         obj <- recomputeexpectations(obj)
-
-        return(obj)
     }
 )
 
