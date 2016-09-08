@@ -62,6 +62,24 @@ setMethod("goodk", "gapnmfclass",
     }
 )
 
+setMethod("recomputeexpectations", "gapnmfclass",
+    function(obj) {
+        w <- computegigexpectations(obj@a, obj@rhow, obj@tauw)
+        h <- computegigexpectations(obj@b, obj@rhoh, obj@tauh)
+        t <- computegigexpectations(obj@alpha / obj@K, obj@rhot, obj@taut)
+
+        obj@Ew <- w$Ex
+        obj@Ewinv <- w$Exinv
+        obj@Ewinvinv <- obj@Ewinv ^ (-1)
+        obj@Eh <- h$Ex
+        obj@Ehinv <- h$Exinv
+        obj@Ehinvinv <- obj@Ehinv ^ (-1)
+        obj@Et <- t$Ex
+        obj@Etinv <- t$Exinv
+        obj@Etinvinv <- obj@Etinv ^ (-1)
+    }
+)
+
 setMethod("bound", "gapnmfclass",
     function(obj, varargin) {
         verbose <- 0
