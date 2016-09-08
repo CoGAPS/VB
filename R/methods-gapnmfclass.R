@@ -41,6 +41,27 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
 
 }
 
+setMethod("updatew", "gapnmfclass",
+    function(obj) {
+        goodk <- goodk(obj)
+        xxtwidinvsq <- obj@x * xtwid(obj, goodk)^(-2)
+        xbarinv <- xbar(obj, goodk)^(-1)
+        dEt <- diag(obj@Et[goodk])
+        dEtinvinv <- diag(obj@Etinvinv[goodk])
+        obj@rhow[, goodk] <- obj@a + xbarinv %*% t(obj@Eh(goodk, )) %*% dEt
+        obj@tauw[, goodk] <- obj@Ewinvinv[, goodk]^2 * 
+            (xxtwidinvsq %*% t(obj@Ehinvinv[goodk, ]) %*% dEtinvinv)
+        obj@tauw[obj@tauw < 1e-100] <- 0;
+        tmp <- computegigexpectations(obj@a, obj@rhow[, goodk], 
+                                      obj@tauw[, goodk])
+        obj@Ew[, goodk] <- tmp$Ex
+        obj@Ewinv[, goodk] <- tmp$Exinv
+        obj@Ewinvinv[, goodk] <- obj@Ewinv[, goodk]^(-1)
+
+        return(obj)
+    }
+)
+
 setMethod("goodk", "gapnmfclass",
     function(obj, cutoff) {
         if (missing(cutoff)) {
