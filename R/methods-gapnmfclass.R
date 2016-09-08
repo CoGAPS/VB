@@ -41,6 +41,20 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
 
 }
 
+setMethod("bound", "gapnmfclass",
+    function(obj, varargin) {
+        verbose <- 0
+        if (varargin == "verbose") {
+            verbose <- 1
+            lastscore <- 0
+        }
+
+        score <- 0
+
+        # FINISH THIS!!!!
+    }
+)
+
 setMethod("xbar", "gapnmfclass",
     function (obj, goodk) {
         if (missing(goodk)) {
