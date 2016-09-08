@@ -2,13 +2,13 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
     M <- dim(x)[1]
     N <- dim(x)[2]
 
-    rhow <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=M, ncol=K)
-    tauw <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=M, ncol=K)
-    rhoh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
-    tauh <- 10000 * matrix(rgamma(M*K, smoothness, smoothness), nrow=K, ncol=M)
-    rhot <- K * 10000 * matrix(rgamma(M*K, smoothness, smoothness),
+    rhow <- 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness), nrow=M, ncol=K)
+    tauw <- 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness), nrow=M, ncol=K)
+    rhoh <- 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness), nrow=K, ncol=M)
+    tauh <- 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness), nrow=K, ncol=M)
+    rhot <- K * 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness),
                                nrow=K, ncol=1)
-    taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, smoothness),
+    taut <- 1 / K * 10000 * matrix(rgamma(M*K, smoothness, 1/smoothness),
                                    nrow=K, ncol=1)
 
     Ew <- computegigexpectations(a, rhow, tauw)
