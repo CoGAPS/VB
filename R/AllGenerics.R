@@ -16,7 +16,7 @@ setGeneric("recomputeexpectations",
 
 setGeneric("figures", function(obj) standardGeneric("figures"))
 
-setGeneric("score", function(obj) standardGeneric("score"))
+setGeneric("bound", function(obj) standardGeneric("bound"))
 
 setGeneric("xbar", function(obj, goodk) standardGeneric("xbar"))
 
