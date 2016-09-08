@@ -98,7 +98,8 @@ setMethod("updatetheta", "gapnmfclass",
         obj@Et[goodk] <- tmp$Ex
         obj@Etinv[goodk] <- tmp$Exinv
         obj@Etinvinv[goodk] <- obj@Etinv[goodk]^(-1)
-    end
+    }
+)
 
 setMethod("goodk", "gapnmfclass",
     function(obj, cutoff) {
