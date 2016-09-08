@@ -51,7 +51,7 @@ setMethod("updatew", "gapnmfclass",
         obj@rhow[, goodk] <- obj@a + xbarinv %*% t(obj@Eh(goodk, )) %*% dEt
         obj@tauw[, goodk] <- obj@Ewinvinv[, goodk]^2 * 
             (xxtwidinvsq %*% t(obj@Ehinvinv[goodk, ]) %*% dEtinvinv)
-        obj@tauw[obj@tauw < 1e-100] <- 0;
+        obj@tauw[obj@tauw < 1e-100] <- 0
         tmp <- computegigexpectations(obj@a, obj@rhow[, goodk], 
                                       obj@tauw[, goodk])
         obj@Ew[, goodk] <- tmp$Ex
