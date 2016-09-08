@@ -59,6 +59,8 @@ setMethod("goodk", "gapnmfclass",
         if (powers[goodk[length(goodk)]] < cutoff) {
             goodk[length(goodk)] <- NULL
         }
+
+        return(goodk)
     }
 )
 
@@ -73,6 +75,8 @@ setMethod("clearbadk", "gapnmfclass",
         obj@tauh[badk, ] <- 0
 
         obj <- recomputeexpectations(obj)
+
+        return(obj)
     }
 )
 
@@ -91,6 +95,8 @@ setMethod("recomputeexpectations", "gapnmfclass",
         obj@Et <- t$Ex
         obj@Etinv <- t$Exinv
         obj@Etinvinv <- obj@Etinv ^ (-1)
+
+        return(obj)
     }
 )
 
