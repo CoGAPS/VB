@@ -62,6 +62,25 @@ setMethod("updatew", "gapnmfclass",
     }
 )
 
+setMethod("updateh", "gapnmfclass",
+    function(obj) {
+        goodk <- goodk(obj)
+        xxtwidinvsq <- obj@x * xtwid(obj, goodk)^(-2)
+        xbarinv <- xbar(obj, goodk)^(-1)
+        dEt <- diag(obj@Et[goodk])
+        dEtinvinv <- diag(obj@Etinvinv[goodk])
+        obj@rhoh[goodk, ] <- obj@b + dEt %*% (t(obj@Ew[, goodk]) %*% xbarinv)
+        obj@tauh[goodk, ] <- obj@Ehinvinv[goodk, ]^2 *
+            (dEtinvinv %*% (t(obj@Ewinvinv[, goodk]) %*% xxtwidinvsq))
+        obj@tauh[obj@tauh < 1e-100] <- 0
+        tmp <- computegigexpectations(obj@b, obj@rhoh[goodk, ], 
+                                      obj@tauh[goodk, ])
+        obj@Eh[goodk, ] <- tmp$Ex
+        obj@Ehinv[goodk, ] <- tmp$Exinv
+        obj@Ehinvinv[goodk, ] <- obj@Ehinv[goodk, ]^(-1)
+    }
+)
+
 setMethod("goodk", "gapnmfclass",
     function(obj, cutoff) {
         if (missing(cutoff)) {
