@@ -62,6 +62,22 @@ setMethod("goodk", "gapnmfclass",
     }
 )
 
+setMethod("clearbadk", "gapnmfclass",
+    function(obj) {
+        goodk <- goodk(obj)
+        badk <- setdiff(1:obj@K, goodk)
+
+        obj@rhow[, badk] <- obj@a
+        obj@tauw[, badk] <- 0
+        obj@rhoh[badk, ] <- obj@b
+        obj@tauh[badk, ] <- 0
+
+        obj <- recomputeexpectations(obj)
+
+        return(obj)
+    }
+)
+
 setMethod("recomputeexpectations", "gapnmfclass",
     function(obj) {
         w <- computegigexpectations(obj@a, obj@rhow, obj@tauw)
