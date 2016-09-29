@@ -41,6 +41,17 @@ gapnmfclass <- function(x, alpha, a, b, K, smoothness=100) {
 
 }
 
+setMethod("update", "gapnmfclass",
+    function(obj, varargin) {
+        verbose <- 0
+        verbose2 <- 0
+        score <- 0
+        lastscore <- 0
+
+        # figure out VARARGIN
+    }
+)
+
 setMethod("updatew", "gapnmfclass",
     function(obj) {
         goodk <- goodk(obj)
@@ -49,10 +60,10 @@ setMethod("updatew", "gapnmfclass",
         dEt <- diag(obj@Et[goodk])
         dEtinvinv <- diag(obj@Etinvinv[goodk])
         obj@rhow[, goodk] <- obj@a + xbarinv %*% t(obj@Eh(goodk, )) %*% dEt
-        obj@tauw[, goodk] <- obj@Ewinvinv[, goodk]^2 * 
+        obj@tauw[, goodk] <- obj@Ewinvinv[, goodk]^2 *
             (xxtwidinvsq %*% t(obj@Ehinvinv[goodk, ]) %*% dEtinvinv)
         obj@tauw[obj@tauw < 1e-100] <- 0
-        tmp <- computegigexpectations(obj@a, obj@rhow[, goodk], 
+        tmp <- computegigexpectations(obj@a, obj@rhow[, goodk],
                                       obj@tauw[, goodk])
         obj@Ew[, goodk] <- tmp$Ex
         obj@Ewinv[, goodk] <- tmp$Exinv
@@ -73,7 +84,7 @@ setMethod("updateh", "gapnmfclass",
         obj@tauh[goodk, ] <- obj@Ehinvinv[goodk, ]^2 *
             (dEtinvinv %*% (t(obj@Ewinvinv[, goodk]) %*% xxtwidinvsq))
         obj@tauh[obj@tauh < 1e-100] <- 0
-        tmp <- computegigexpectations(obj@b, obj@rhoh[goodk, ], 
+        tmp <- computegigexpectations(obj@b, obj@rhoh[goodk, ],
                                       obj@tauh[goodk, ])
         obj@Eh[goodk, ] <- tmp$Ex
         obj@Ehinv[goodk, ] <- tmp$Exinv
@@ -86,14 +97,14 @@ setMethod("updatetheta", "gapnmfclass",
         goodk <- goodk(obj)
         xxtwidinvsq <- obj@x * xtwid(obj, goodk)^(-2)
         xbarinv <- xbar(obj, goodk)^(-1)
-        obj@rhot[goodk] <- obj@alpha + 
-                           apply(t(obj@Ew[, goodk]) %*% xbarinv * 
+        obj@rhot[goodk] <- obj@alpha +
+                           apply(t(obj@Ew[, goodk]) %*% xbarinv *
                                  obj@Eh[goodk, ], 1, sum)
         obj@taut[goodk] <- obj@Etinvinv[goodk]^2 *
-            apply(t(obj@Ewinvinv[, goodk]) %*% xxtwidinvsq * 
+            apply(t(obj@Ewinvinv[, goodk]) %*% xxtwidinvsq *
                   obj@Ehinvinv[goodk, ], 1, sum)
         obj@taut[obj@taut < 1e-100] <- 0
-        tmp <- computegigexpectations(obj@alpha / obj@K, obj@rhot[goodk], 
+        tmp <- computegigexpectations(obj@alpha / obj@K, obj@rhot[goodk],
                                       obj@taut[goodk])
         obj@Et[goodk] <- tmp$Ex
         obj@Etinv[goodk] <- tmp$Exinv
@@ -108,7 +119,7 @@ setMethod("goodk", "gapnmfclass",
         }
 
         # NOT QUITE RIGHT
-        powers <- obj@Et * cbind(apply(obj@Ew, 2, max)) * 
+        powers <- obj@Et * cbind(apply(obj@Ew, 2, max)) *
                   rbind(apply(obj@Eh, 1, max))
         sorted <- order(powers, descending=TRUE)
         temp <- powers[sorted]
@@ -189,7 +200,7 @@ setMethod("xtwid", "gapnmfclass",
             goodk <- 1:obj@K
         }
 
-        return(obj@Ewinvinv[, goodk] %*% diag(obj@Etinvinv[goodk]) %*% 
+        return(obj@Ewinvinv[, goodk] %*% diag(obj@Etinvinv[goodk]) %*%
                obj@Ehinvinv[goodk, ])
     }
 )
