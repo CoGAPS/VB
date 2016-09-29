@@ -59,7 +59,7 @@ setMethod("updatew", "gapnmfclass",
         xbarinv <- xbar(obj, goodk)^(-1)
         dEt <- diag(obj@Et[goodk])
         dEtinvinv <- diag(obj@Etinvinv[goodk])
-        obj@rhow[, goodk] <- obj@a + xbarinv %*% t(obj@Eh(goodk, )) %*% dEt
+        obj@rhow[, goodk] <- obj@a + xbarinv %*% t(obj@Eh[goodk, ]) %*% dEt
         obj@tauw[, goodk] <- obj@Ewinvinv[, goodk]^2 *
             (xxtwidinvsq %*% t(obj@Ehinvinv[goodk, ]) %*% dEtinvinv)
         obj@tauw[obj@tauw < 1e-100] <- 0
